@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
+var api = require('./routes/api');
 
 var app = express();
 
@@ -24,6 +25,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/users', users);
+app.use('/api', api);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -56,5 +58,9 @@ app.use(function(err, req, res, next) {
     });
 });
 
+var host = (process.env.VCAP_APP_HOST || '0.0.0.0');
+var port = (process.env.VCAP_APP_PORT || 3001);
+app.listen(port, host);
+console.log('App started on %s:%s', host, port);
 
 module.exports = app;
