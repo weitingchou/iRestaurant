@@ -11,6 +11,16 @@ var api = require('./routes/api');
 
 var app = express();
 
+function cors(req, res, next) {
+    res.set('Access-Control-Allow-Origin', '*');
+    res.set('Access-Control-Allow-Methods', 'GET,POST,PUT,PATCH,DELETE,OPTIONS');
+    res.set('Access-Control-Allow-Headers', 'authorization,content-type');
+    res.set('Access-Control-Allow-Credentials', 'true');
+    res.set('Allow', 'GET,POST,PUT,DELETE,OPTIONS');
+    next();
+}
+app.use(cors);
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -21,7 +31,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public/mayday_rock')));
 
 app.use('/', routes);
 app.use('/users', users);
@@ -59,7 +69,7 @@ app.use(function(err, req, res, next) {
 });
 
 var host = (process.env.VCAP_APP_HOST || '0.0.0.0');
-var port = (process.env.VCAP_APP_PORT || 3001);
+var port = (process.env.VCAP_APP_PORT || 3002);
 app.listen(port, host);
 console.log('App started on %s:%s', host, port);
 
